@@ -248,8 +248,8 @@ img, video {
   position: static;
 }
 
-.m-4 {
-  margin: 1rem;
+.m-2 {
+  margin: .5rem;
 }
 
 .mx-2 {
@@ -285,16 +285,6 @@ img, video {
   justify-content: space-between;
 }
 
-.bg-slate-300 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(203 213 225 / var(--tw-bg-opacity));
-}
-
-.bg-white {
-  --tw-bg-opacity: 1;
-  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
-}
-
 .px-2 {
   padding-left: .5rem;
   padding-right: .5rem;
@@ -317,6 +307,10 @@ img, video {
 
 .font-bold {
   font-weight: 700;
+}
+
+.font-semibold {
+  font-weight: 600;
 }
 
 /*# sourceMappingURL=index.9e4c6fd2.css.map */
