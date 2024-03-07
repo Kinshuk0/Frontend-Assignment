@@ -5,9 +5,9 @@ import list from "../Assets/list.png";
 import { Link } from "react-router-dom";
 const Header = () => {
   return (
-    <div>
+    <div className="my-2 border border-solid border-blue-200">
       {/* implement logic for underling toggle */}
-      <div className="py-2 px-4 inline-flex justify-between">
+      <div className="py-2 inline-flex justify-between">
         <img className="px-2" alt="logo" src={logo} />
         <div className="flex items-center mx-2">
           <img className="h-4 mr-1" alt="metric" src={metric} />

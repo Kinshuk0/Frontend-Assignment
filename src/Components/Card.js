@@ -1,14 +1,8 @@
 import React from "react";
 import React from "react";
 import Chart from "chart.js/auto";
-import { Line } from "react-chartjs-2";
-const LineChart = () => {
-  return (
-    <div>
-      <Line data={data} />
-    </div>
-  );
-};
+import { Line, PolarArea } from "react-chartjs-2";
+import { useState } from "react";
 const convert = (timestamp) => {
   const d = new Date(timestamp);
   const hour = d.getHours();
@@ -17,6 +11,7 @@ const convert = (timestamp) => {
   return time;
 };
 const Card = (props) => {
+  const [fillvalue, setFill] = useState(false);
   console.log("IamProps");
   const d = props.graphLines;
   const x = d?.[0]?.values;
@@ -26,6 +21,7 @@ const Card = (props) => {
   const valuesArrayY = y ? y.map((obj) => obj.value) : [];
   const valuesArrayZ = z ? z.map((obj) => obj.value) : [];
   const valuesTimes = x ? x.map((obj) => convert(obj.timestamp)) : [];
+  //
   // console.log(valuesArray);
   // console.log("break");
   // console.log(valuesTimes);
@@ -75,7 +71,10 @@ const Card = (props) => {
     },
   };
   return (
-    <div>
+    <div className="w-1/2 p-2 border border-solid border-blue-200 ">
+      <div>
+        <p className="text-sm m-2">{props?.name}</p>
+      </div>
       <Line data={data} options={options} />
     </div>
   );

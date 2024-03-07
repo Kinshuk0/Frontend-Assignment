@@ -14,7 +14,7 @@ import Error from "./Components/Error";
 const AppLayout = () => {
   let { id } = useParams();
   return (
-    <div>
+    <div className="px-3">
       <Header />
       <Outlet />
     </div>
