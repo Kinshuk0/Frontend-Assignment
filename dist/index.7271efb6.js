@@ -48141,15 +48141,176 @@ parcelHelpers.defineInteropFlag(exports);
 var _jsxDevRuntime = require("react/jsx-dev-runtime");
 var _react = require("react");
 var _reactDefault = parcelHelpers.interopDefault(_react);
+var _api = require("../API");
+var _spinnerSvg = require("../Assets/Spinner.svg");
+var _spinnerSvgDefault = parcelHelpers.interopDefault(_spinnerSvg);
+var _reactangleSvg = require("../Assets/Reactangle.svg");
+var _reactangleSvgDefault = parcelHelpers.interopDefault(_reactangleSvg);
+var _s = $RefreshSig$();
+const convert = (timestamp)=>{
+    const d = new Date(timestamp);
+    const hour = d.getHours();
+    const minutes = d.getMinutes();
+    const time = hour + ":" + minutes;
+    return time;
+};
+function formatTimestamp(timestamp) {
+    const date = new Date(timestamp);
+    const monthNames = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec"
+    ];
+    const month = monthNames[date.getMonth()];
+    const day = date.getDate();
+    const hours = date.getHours().toString().padStart(2, "0");
+    const minutes = date.getMinutes().toString().padStart(2, "0");
+    const seconds = date.getSeconds().toString().padStart(2, "0");
+    const milliseconds = date.getMilliseconds().toString().padStart(3, "0");
+    return `${month} ${day} ${hours}:${minutes}:${seconds}.${milliseconds}`;
+}
 const Logs = ()=>{
+    _s();
+    const [data, setData] = (0, _react.useState)([]);
+    const startTs = Date.now() - 86400000;
+    const endTs = Date.now();
+    const fetchPreviousLogs = async ()=>{
+        try {
+            const startTs = Date.now() - 86400000; // 24 hours ago
+            const endTs = Date.now();
+            const limit = 100;
+            const logs = await (0, _api.MimicLogs).fetchPreviousLogs({
+                startTs,
+                endTs,
+                limit
+            });
+            setData(logs);
+            //console.log("Previous logs:", logs);
+            console.log(data);
+        } catch (error) {
+            console.error("Error fetching previous logs:", error);
+        }
+    };
+    //logic for the subscreibe log i dont know clearly what that means so I a keeping it chill
+    // const subscribeToLiveLogs = async () => {
+    //   try {
+    //     const unsubscribe = MimicLogs.subscribeToLiveLogs((nextLog) => {
+    //       console.log("Received live log:", nextLog);
+    //       // Process the received live log here
+    //     });
+    //     // To stop receiving live logs, call unsubscribe()
+    //     // unsubscribe();
+    //   } catch (error) {
+    //     console.error("Error subscribing to live logs:", error);
+    //   }
+    // };
+    (0, _react.useEffect)(()=>{
+        fetchPreviousLogs();
+    // subscribeToLiveLogs();
+    }, []);
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-        children: "Logs"
-    }, void 0, false, {
+        children: [
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+                    className: "text-right mx-2 text-xs",
+                    children: [
+                        "Showing logs for",
+                        " ",
+                        new Date().toLocaleDateString("en-GB") + "  " + convert(startTs),
+                        " ",
+                        " -> ",
+                        " ",
+                        new Date(Date.now() - 300000).toLocaleDateString("en-GB") + "  " + convert(endTs)
+                    ]
+                }, void 0, true, {
+                    fileName: "src/Components/Logs.js",
+                    lineNumber: 74,
+                    columnNumber: 9
+                }, undefined)
+            }, void 0, false, {
+                fileName: "src/Components/Logs.js",
+                lineNumber: 73,
+                columnNumber: 7
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                className: "bg-slate-900 rounded-md mx-2 px-4",
+                children: [
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        className: "flex justify-center",
+                        children: [
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
+                                className: "h-[15px] my-1",
+                                src: (0, _spinnerSvgDefault.default),
+                                alt: "spinner img"
+                            }, void 0, false, {
+                                fileName: "src/Components/Logs.js",
+                                lineNumber: 85,
+                                columnNumber: 11
+                            }, undefined),
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                className: "text-[#5E7BAA] m-[0.25rem] text-[10px]",
+                                children: "Loading previous 100 Logs"
+                            }, void 0, false, {
+                                fileName: "src/Components/Logs.js",
+                                lineNumber: 86,
+                                columnNumber: 11
+                            }, undefined)
+                        ]
+                    }, void 0, true, {
+                        fileName: "src/Components/Logs.js",
+                        lineNumber: 84,
+                        columnNumber: 9
+                    }, undefined),
+                    data.map((obj)=>{
+                        return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                            className: "text-xs flex items-center py-1 overflow-scroll",
+                            children: [
+                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                    className: "text-[#5E7BAA] whitespace-nowrap",
+                                    children: formatTimestamp(obj.timestamp)
+                                }, void 0, false, {
+                                    fileName: "src/Components/Logs.js",
+                                    lineNumber: 96,
+                                    columnNumber: 15
+                                }, undefined),
+                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+                                    className: "text-[#A8C3E8] whitespace-nowrap mx-2",
+                                    children: obj.message
+                                }, void 0, false, {
+                                    fileName: "src/Components/Logs.js",
+                                    lineNumber: 99,
+                                    columnNumber: 15
+                                }, undefined)
+                            ]
+                        }, obj.timestamp, true, {
+                            fileName: "src/Components/Logs.js",
+                            lineNumber: 92,
+                            columnNumber: 13
+                        }, undefined);
+                    })
+                ]
+            }, void 0, true, {
+                fileName: "src/Components/Logs.js",
+                lineNumber: 83,
+                columnNumber: 7
+            }, undefined)
+        ]
+    }, void 0, true, {
         fileName: "src/Components/Logs.js",
-        lineNumber: 4,
-        columnNumber: 10
+        lineNumber: 72,
+        columnNumber: 5
     }, undefined);
 };
+_s(Logs, "IEMTtLVFIuToo7X/raQbJAxzNQU=");
 _c = Logs;
 exports.default = Logs;
 var _c;
@@ -48160,7 +48321,13 @@ $RefreshReg$(_c, "Logs");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"iQH4s":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","../API":"a6bNq","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru","../Assets/Spinner.svg":"llYUF","../Assets/Reactangle.svg":"cZUXH"}],"llYUF":[function(require,module,exports) {
+module.exports = require("ac4473e412d657b5").getBundleURL("aXMci") + "Spinner.6adb8034.svg" + "?" + Date.now();
+
+},{"ac4473e412d657b5":"lgJ39"}],"cZUXH":[function(require,module,exports) {
+module.exports = require("4fa7dc86389bc5f1").getBundleURL("aXMci") + "Reactangle.6cffe648.svg" + "?" + Date.now();
+
+},{"4fa7dc86389bc5f1":"lgJ39"}],"iQH4s":[function(require,module,exports) {
 var $parcel$ReactRefreshHelpers$24a5 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
