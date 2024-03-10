@@ -27249,7 +27249,7 @@ var _listPngDefault = parcelHelpers.interopDefault(_listPng);
 var _reactRouterDom = require("react-router-dom");
 const Header = ()=>{
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-        className: "my-2 border border-solid border-blue-200",
+        className: "border border-solid border-blue-200 mt-px",
         children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
             className: "py-2 inline-flex justify-between",
             children: [
@@ -34091,7 +34091,8 @@ var _s = $RefreshSig$();
 const convert = (timestamp)=>{
     const d = new Date(timestamp);
     const hour = d.getHours();
-    const minutes = d.getMinutes();
+    let minutes = d.getMinutes();
+    minutes = minutes.length === 1 ? "0" + minutes : minutes;
     const time = hour + ":" + minutes;
     return time;
 };
@@ -34129,7 +34130,7 @@ const Metrics = ()=>{
                         children: "Metrics"
                     }, void 0, false, {
                         fileName: "src/Components/Metrics.js",
-                        lineNumber: 38,
+                        lineNumber: 39,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -34143,13 +34144,13 @@ const Metrics = ()=>{
                         ]
                     }, void 0, true, {
                         fileName: "src/Components/Metrics.js",
-                        lineNumber: 39,
+                        lineNumber: 40,
                         columnNumber: 9
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/Components/Metrics.js",
-                lineNumber: 37,
+                lineNumber: 38,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -34160,7 +34161,7 @@ const Metrics = ()=>{
                         className: "my-2"
                     }, void 0, false, {
                         fileName: "src/Components/Metrics.js",
-                        lineNumber: 50,
+                        lineNumber: 51,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _cardDefault.default), {
@@ -34168,7 +34169,7 @@ const Metrics = ()=>{
                         className: "my-2"
                     }, void 0, false, {
                         fileName: "src/Components/Metrics.js",
-                        lineNumber: 51,
+                        lineNumber: 52,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _cardDefault.default), {
@@ -34176,7 +34177,7 @@ const Metrics = ()=>{
                         className: "my-2"
                     }, void 0, false, {
                         fileName: "src/Components/Metrics.js",
-                        lineNumber: 52,
+                        lineNumber: 53,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _cardDefault.default), {
@@ -34184,19 +34185,19 @@ const Metrics = ()=>{
                         className: "my-2"
                     }, void 0, false, {
                         fileName: "src/Components/Metrics.js",
-                        lineNumber: 53,
+                        lineNumber: 54,
                         columnNumber: 9
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/Components/Metrics.js",
-                lineNumber: 49,
+                lineNumber: 50,
                 columnNumber: 7
             }, undefined)
         ]
     }, void 0, true, {
         fileName: "src/Components/Metrics.js",
-        lineNumber: 36,
+        lineNumber: 37,
         columnNumber: 5
     }, undefined);
 };
@@ -48144,13 +48145,12 @@ var _reactDefault = parcelHelpers.interopDefault(_react);
 var _api = require("../API");
 var _spinnerSvg = require("../Assets/Spinner.svg");
 var _spinnerSvgDefault = parcelHelpers.interopDefault(_spinnerSvg);
-var _reactangleSvg = require("../Assets/Reactangle.svg");
-var _reactangleSvgDefault = parcelHelpers.interopDefault(_reactangleSvg);
 var _s = $RefreshSig$();
 const convert = (timestamp)=>{
     const d = new Date(timestamp);
     const hour = d.getHours();
-    const minutes = d.getMinutes();
+    let minutes = d.getMinutes();
+    minutes = minutes.length === 1 ? "0" + minutes : minutes;
     const time = hour + ":" + minutes;
     return time;
 };
@@ -48221,15 +48221,11 @@ const Logs = ()=>{
         children: [
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                 children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                    className: "text-right mx-2 text-xs",
+                    className: "text-right text-[0.6rem] mx-2 py-1",
                     children: [
                         "Showing logs for",
                         " ",
-                        new Date().toLocaleDateString("en-GB") + "  " + convert(startTs),
-                        " ",
-                        " -> ",
-                        " ",
-                        new Date(Date.now() - 300000).toLocaleDateString("en-GB") + "  " + convert(endTs)
+                        new Date().toLocaleDateString("en-GB") + "  " + convert(startTs)
                     ]
                 }, void 0, true, {
                     fileName: "src/Components/Logs.js",
@@ -48242,7 +48238,7 @@ const Logs = ()=>{
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                className: "bg-slate-900 rounded-md mx-2 px-4",
+                className: "bg-slate-900 rounded-md mx-2 px-4 h-[500px] overflow-scroll",
                 children: [
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                         className: "flex justify-center",
@@ -48253,7 +48249,7 @@ const Logs = ()=>{
                                 alt: "spinner img"
                             }, void 0, false, {
                                 fileName: "src/Components/Logs.js",
-                                lineNumber: 85,
+                                lineNumber: 81,
                                 columnNumber: 11
                             }, undefined),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
@@ -48261,13 +48257,13 @@ const Logs = ()=>{
                                 children: "Loading previous 100 Logs"
                             }, void 0, false, {
                                 fileName: "src/Components/Logs.js",
-                                lineNumber: 86,
+                                lineNumber: 82,
                                 columnNumber: 11
                             }, undefined)
                         ]
                     }, void 0, true, {
                         fileName: "src/Components/Logs.js",
-                        lineNumber: 84,
+                        lineNumber: 80,
                         columnNumber: 9
                     }, undefined),
                     data.map((obj)=>{
@@ -48276,10 +48272,10 @@ const Logs = ()=>{
                             children: [
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
                                     className: "text-[#5E7BAA] whitespace-nowrap",
-                                    children: formatTimestamp(obj.timestamp)
+                                    children: formatTimestamp(obj.timestamp) + " [info] "
                                 }, void 0, false, {
                                     fileName: "src/Components/Logs.js",
-                                    lineNumber: 96,
+                                    lineNumber: 92,
                                     columnNumber: 15
                                 }, undefined),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
@@ -48287,20 +48283,20 @@ const Logs = ()=>{
                                     children: obj.message
                                 }, void 0, false, {
                                     fileName: "src/Components/Logs.js",
-                                    lineNumber: 99,
+                                    lineNumber: 95,
                                     columnNumber: 15
                                 }, undefined)
                             ]
                         }, obj.timestamp, true, {
                             fileName: "src/Components/Logs.js",
-                            lineNumber: 92,
+                            lineNumber: 88,
                             columnNumber: 13
                         }, undefined);
                     })
                 ]
             }, void 0, true, {
                 fileName: "src/Components/Logs.js",
-                lineNumber: 83,
+                lineNumber: 79,
                 columnNumber: 7
             }, undefined)
         ]
@@ -48321,13 +48317,10 @@ $RefreshReg$(_c, "Logs");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","../API":"a6bNq","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru","../Assets/Spinner.svg":"llYUF","../Assets/Reactangle.svg":"cZUXH"}],"llYUF":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","../API":"a6bNq","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru","../Assets/Spinner.svg":"llYUF"}],"llYUF":[function(require,module,exports) {
 module.exports = require("ac4473e412d657b5").getBundleURL("aXMci") + "Spinner.6adb8034.svg" + "?" + Date.now();
 
-},{"ac4473e412d657b5":"lgJ39"}],"cZUXH":[function(require,module,exports) {
-module.exports = require("4fa7dc86389bc5f1").getBundleURL("aXMci") + "Reactangle.6cffe648.svg" + "?" + Date.now();
-
-},{"4fa7dc86389bc5f1":"lgJ39"}],"iQH4s":[function(require,module,exports) {
+},{"ac4473e412d657b5":"lgJ39"}],"iQH4s":[function(require,module,exports) {
 var $parcel$ReactRefreshHelpers$24a5 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;

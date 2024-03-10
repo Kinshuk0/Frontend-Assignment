@@ -4,7 +4,8 @@ import Card from "./Card";
 const convert = (timestamp) => {
   const d = new Date(timestamp);
   const hour = d.getHours();
-  const minutes = d.getMinutes();
+  let minutes = d.getMinutes();
+  minutes = minutes.length === 1 ? "0" + minutes : minutes;
   const time = hour + ":" + minutes;
   return time;
 };

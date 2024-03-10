@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { MimicLogs } from "../API";
 import Spinner from "../Assets/Spinner.svg";
-import Rectangle from "../Assets/Reactangle.svg";
 const convert = (timestamp) => {
   const d = new Date(timestamp);
   const hour = d.getHours();
-  const minutes = d.getMinutes();
+  let minutes = d.getMinutes();
+  minutes = minutes.length === 1 ? "0" + minutes : minutes;
   const time = hour + ":" + minutes;
   return time;
 };
@@ -71,16 +71,12 @@ const Logs = () => {
   return (
     <div>
       <div>
-        <p className="text-right mx-2 text-xs">
+        <p className="text-right text-[0.6rem] mx-2 py-1">
           Showing logs for{" "}
-          {new Date().toLocaleDateString("en-GB") + "  " + convert(startTs)}{" "}
-          {" -> "}{" "}
-          {new Date(Date.now() - 5 * 60 * 1000).toLocaleDateString("en-GB") +
-            "  " +
-            convert(endTs)}
+          {new Date().toLocaleDateString("en-GB") + "  " + convert(startTs)}
         </p>
       </div>
-      <div className="bg-slate-900 rounded-md mx-2 px-4">
+      <div className="bg-slate-900 rounded-md mx-2 px-4 h-[500px] overflow-scroll">
         <div className="flex justify-center">
           <img className="h-[15px] my-1" src={Spinner} alt="spinner img" />
           <span className="text-[#5E7BAA] m-[0.25rem] text-[10px]">
@@ -94,7 +90,7 @@ const Logs = () => {
               key={obj.timestamp}
             >
               <span className="text-[#5E7BAA] whitespace-nowrap">
-                {formatTimestamp(obj.timestamp)}
+                {formatTimestamp(obj.timestamp) + " [info] "}
               </span>
               <p className="text-[#A8C3E8] whitespace-nowrap mx-2">
                 {obj.message}
