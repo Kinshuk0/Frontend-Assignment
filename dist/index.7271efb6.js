@@ -34540,15 +34540,181 @@ $RefreshReg$(_c, "Card");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","chart.js/auto":"d8NN9","react-chartjs-2":"2KqEP","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"d8NN9":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","react-chartjs-2":"2KqEP","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru","chart.js/auto":"d8NN9"}],"2KqEP":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-var _chartJs = require("../dist/chart.js");
-parcelHelpers.exportAll(_chartJs, exports);
-(0, _chartJs.Chart).register(...(0, _chartJs.registerables));
-exports.default = (0, _chartJs.Chart);
+parcelHelpers.export(exports, "Bar", ()=>Bar);
+parcelHelpers.export(exports, "Bubble", ()=>Bubble);
+parcelHelpers.export(exports, "Chart", ()=>Chart);
+parcelHelpers.export(exports, "Doughnut", ()=>Doughnut);
+parcelHelpers.export(exports, "Line", ()=>Line);
+parcelHelpers.export(exports, "Pie", ()=>Pie);
+parcelHelpers.export(exports, "PolarArea", ()=>PolarArea);
+parcelHelpers.export(exports, "Radar", ()=>Radar);
+parcelHelpers.export(exports, "Scatter", ()=>Scatter);
+parcelHelpers.export(exports, "getDatasetAtEvent", ()=>getDatasetAtEvent);
+parcelHelpers.export(exports, "getElementAtEvent", ()=>getElementAtEvent);
+parcelHelpers.export(exports, "getElementsAtEvent", ()=>getElementsAtEvent);
+var _react = require("react");
+var _reactDefault = parcelHelpers.interopDefault(_react);
+var _chartJs = require("chart.js");
+const defaultDatasetIdKey = "label";
+function reforwardRef(ref, value) {
+    if (typeof ref === "function") ref(value);
+    else if (ref) ref.current = value;
+}
+function setOptions(chart, nextOptions) {
+    const options = chart.options;
+    if (options && nextOptions) Object.assign(options, nextOptions);
+}
+function setLabels(currentData, nextLabels) {
+    currentData.labels = nextLabels;
+}
+function setDatasets(currentData, nextDatasets) {
+    let datasetIdKey = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : defaultDatasetIdKey;
+    const addedDatasets = [];
+    currentData.datasets = nextDatasets.map((nextDataset)=>{
+        // given the new set, find it's current match
+        const currentDataset = currentData.datasets.find((dataset)=>dataset[datasetIdKey] === nextDataset[datasetIdKey]);
+        // There is no original to update, so simply add new one
+        if (!currentDataset || !nextDataset.data || addedDatasets.includes(currentDataset)) return {
+            ...nextDataset
+        };
+        addedDatasets.push(currentDataset);
+        Object.assign(currentDataset, nextDataset);
+        return currentDataset;
+    });
+}
+function cloneData(data) {
+    let datasetIdKey = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : defaultDatasetIdKey;
+    const nextData = {
+        labels: [],
+        datasets: []
+    };
+    setLabels(nextData, data.labels);
+    setDatasets(nextData, data.datasets, datasetIdKey);
+    return nextData;
+}
+/**
+ * Get dataset from mouse click event
+ * @param chart - Chart.js instance
+ * @param event - Mouse click event
+ * @returns Dataset
+ */ function getDatasetAtEvent(chart, event) {
+    return chart.getElementsAtEventForMode(event.nativeEvent, "dataset", {
+        intersect: true
+    }, false);
+}
+/**
+ * Get single dataset element from mouse click event
+ * @param chart - Chart.js instance
+ * @param event - Mouse click event
+ * @returns Dataset
+ */ function getElementAtEvent(chart, event) {
+    return chart.getElementsAtEventForMode(event.nativeEvent, "nearest", {
+        intersect: true
+    }, false);
+}
+/**
+ * Get all dataset elements from mouse click event
+ * @param chart - Chart.js instance
+ * @param event - Mouse click event
+ * @returns Dataset
+ */ function getElementsAtEvent(chart, event) {
+    return chart.getElementsAtEventForMode(event.nativeEvent, "index", {
+        intersect: true
+    }, false);
+}
+function ChartComponent(props, ref) {
+    const { height = 150, width = 300, redraw = false, datasetIdKey, type, data, options, plugins = [], fallbackContent, updateMode, ...canvasProps } = props;
+    const canvasRef = (0, _react.useRef)(null);
+    const chartRef = (0, _react.useRef)();
+    const renderChart = ()=>{
+        if (!canvasRef.current) return;
+        chartRef.current = new (0, _chartJs.Chart)(canvasRef.current, {
+            type,
+            data: cloneData(data, datasetIdKey),
+            options: options && {
+                ...options
+            },
+            plugins
+        });
+        reforwardRef(ref, chartRef.current);
+    };
+    const destroyChart = ()=>{
+        reforwardRef(ref, null);
+        if (chartRef.current) {
+            chartRef.current.destroy();
+            chartRef.current = null;
+        }
+    };
+    (0, _react.useEffect)(()=>{
+        if (!redraw && chartRef.current && options) setOptions(chartRef.current, options);
+    }, [
+        redraw,
+        options
+    ]);
+    (0, _react.useEffect)(()=>{
+        if (!redraw && chartRef.current) setLabels(chartRef.current.config.data, data.labels);
+    }, [
+        redraw,
+        data.labels
+    ]);
+    (0, _react.useEffect)(()=>{
+        if (!redraw && chartRef.current && data.datasets) setDatasets(chartRef.current.config.data, data.datasets, datasetIdKey);
+    }, [
+        redraw,
+        data.datasets
+    ]);
+    (0, _react.useEffect)(()=>{
+        if (!chartRef.current) return;
+        if (redraw) {
+            destroyChart();
+            setTimeout(renderChart);
+        } else chartRef.current.update(updateMode);
+    }, [
+        redraw,
+        options,
+        data.labels,
+        data.datasets,
+        updateMode
+    ]);
+    (0, _react.useEffect)(()=>{
+        if (!chartRef.current) return;
+        destroyChart();
+        setTimeout(renderChart);
+    }, [
+        type
+    ]);
+    (0, _react.useEffect)(()=>{
+        renderChart();
+        return ()=>destroyChart();
+    }, []);
+    return /*#__PURE__*/ (0, _reactDefault.default).createElement("canvas", Object.assign({
+        ref: canvasRef,
+        role: "img",
+        height: height,
+        width: width
+    }, canvasProps), fallbackContent);
+}
+const Chart = /*#__PURE__*/ (0, _react.forwardRef)(ChartComponent);
+function createTypedChart(type, registerables) {
+    (0, _chartJs.Chart).register(registerables);
+    return /*#__PURE__*/ (0, _react.forwardRef)((props, ref)=>/*#__PURE__*/ (0, _reactDefault.default).createElement(Chart, Object.assign({}, props, {
+            ref: ref,
+            type: type
+        })));
+}
+const Line = /* #__PURE__ */ createTypedChart("line", (0, _chartJs.LineController));
+const Bar = /* #__PURE__ */ createTypedChart("bar", (0, _chartJs.BarController));
+const Radar = /* #__PURE__ */ createTypedChart("radar", (0, _chartJs.RadarController));
+const Doughnut = /* #__PURE__ */ createTypedChart("doughnut", (0, _chartJs.DoughnutController));
+const PolarArea = /* #__PURE__ */ createTypedChart("polarArea", (0, _chartJs.PolarAreaController));
+const Bubble = /* #__PURE__ */ createTypedChart("bubble", (0, _chartJs.BubbleController));
+const Pie = /* #__PURE__ */ createTypedChart("pie", (0, _chartJs.PieController));
+const Scatter = /* #__PURE__ */ createTypedChart("scatter", (0, _chartJs.ScatterController));
 
-},{"../dist/chart.js":"ipU8D","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"ipU8D":[function(require,module,exports) {
+},{"react":"21dqq","chart.js":"ipU8D","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"ipU8D":[function(require,module,exports) {
 /*!
  * Chart.js v4.4.2
  * https://www.chartjs.org
@@ -47956,181 +48122,15 @@ function index_esm(input) {
     return new Color(input);
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"2KqEP":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"d8NN9":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "Bar", ()=>Bar);
-parcelHelpers.export(exports, "Bubble", ()=>Bubble);
-parcelHelpers.export(exports, "Chart", ()=>Chart);
-parcelHelpers.export(exports, "Doughnut", ()=>Doughnut);
-parcelHelpers.export(exports, "Line", ()=>Line);
-parcelHelpers.export(exports, "Pie", ()=>Pie);
-parcelHelpers.export(exports, "PolarArea", ()=>PolarArea);
-parcelHelpers.export(exports, "Radar", ()=>Radar);
-parcelHelpers.export(exports, "Scatter", ()=>Scatter);
-parcelHelpers.export(exports, "getDatasetAtEvent", ()=>getDatasetAtEvent);
-parcelHelpers.export(exports, "getElementAtEvent", ()=>getElementAtEvent);
-parcelHelpers.export(exports, "getElementsAtEvent", ()=>getElementsAtEvent);
-var _react = require("react");
-var _reactDefault = parcelHelpers.interopDefault(_react);
-var _chartJs = require("chart.js");
-const defaultDatasetIdKey = "label";
-function reforwardRef(ref, value) {
-    if (typeof ref === "function") ref(value);
-    else if (ref) ref.current = value;
-}
-function setOptions(chart, nextOptions) {
-    const options = chart.options;
-    if (options && nextOptions) Object.assign(options, nextOptions);
-}
-function setLabels(currentData, nextLabels) {
-    currentData.labels = nextLabels;
-}
-function setDatasets(currentData, nextDatasets) {
-    let datasetIdKey = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : defaultDatasetIdKey;
-    const addedDatasets = [];
-    currentData.datasets = nextDatasets.map((nextDataset)=>{
-        // given the new set, find it's current match
-        const currentDataset = currentData.datasets.find((dataset)=>dataset[datasetIdKey] === nextDataset[datasetIdKey]);
-        // There is no original to update, so simply add new one
-        if (!currentDataset || !nextDataset.data || addedDatasets.includes(currentDataset)) return {
-            ...nextDataset
-        };
-        addedDatasets.push(currentDataset);
-        Object.assign(currentDataset, nextDataset);
-        return currentDataset;
-    });
-}
-function cloneData(data) {
-    let datasetIdKey = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : defaultDatasetIdKey;
-    const nextData = {
-        labels: [],
-        datasets: []
-    };
-    setLabels(nextData, data.labels);
-    setDatasets(nextData, data.datasets, datasetIdKey);
-    return nextData;
-}
-/**
- * Get dataset from mouse click event
- * @param chart - Chart.js instance
- * @param event - Mouse click event
- * @returns Dataset
- */ function getDatasetAtEvent(chart, event) {
-    return chart.getElementsAtEventForMode(event.nativeEvent, "dataset", {
-        intersect: true
-    }, false);
-}
-/**
- * Get single dataset element from mouse click event
- * @param chart - Chart.js instance
- * @param event - Mouse click event
- * @returns Dataset
- */ function getElementAtEvent(chart, event) {
-    return chart.getElementsAtEventForMode(event.nativeEvent, "nearest", {
-        intersect: true
-    }, false);
-}
-/**
- * Get all dataset elements from mouse click event
- * @param chart - Chart.js instance
- * @param event - Mouse click event
- * @returns Dataset
- */ function getElementsAtEvent(chart, event) {
-    return chart.getElementsAtEventForMode(event.nativeEvent, "index", {
-        intersect: true
-    }, false);
-}
-function ChartComponent(props, ref) {
-    const { height = 150, width = 300, redraw = false, datasetIdKey, type, data, options, plugins = [], fallbackContent, updateMode, ...canvasProps } = props;
-    const canvasRef = (0, _react.useRef)(null);
-    const chartRef = (0, _react.useRef)();
-    const renderChart = ()=>{
-        if (!canvasRef.current) return;
-        chartRef.current = new (0, _chartJs.Chart)(canvasRef.current, {
-            type,
-            data: cloneData(data, datasetIdKey),
-            options: options && {
-                ...options
-            },
-            plugins
-        });
-        reforwardRef(ref, chartRef.current);
-    };
-    const destroyChart = ()=>{
-        reforwardRef(ref, null);
-        if (chartRef.current) {
-            chartRef.current.destroy();
-            chartRef.current = null;
-        }
-    };
-    (0, _react.useEffect)(()=>{
-        if (!redraw && chartRef.current && options) setOptions(chartRef.current, options);
-    }, [
-        redraw,
-        options
-    ]);
-    (0, _react.useEffect)(()=>{
-        if (!redraw && chartRef.current) setLabels(chartRef.current.config.data, data.labels);
-    }, [
-        redraw,
-        data.labels
-    ]);
-    (0, _react.useEffect)(()=>{
-        if (!redraw && chartRef.current && data.datasets) setDatasets(chartRef.current.config.data, data.datasets, datasetIdKey);
-    }, [
-        redraw,
-        data.datasets
-    ]);
-    (0, _react.useEffect)(()=>{
-        if (!chartRef.current) return;
-        if (redraw) {
-            destroyChart();
-            setTimeout(renderChart);
-        } else chartRef.current.update(updateMode);
-    }, [
-        redraw,
-        options,
-        data.labels,
-        data.datasets,
-        updateMode
-    ]);
-    (0, _react.useEffect)(()=>{
-        if (!chartRef.current) return;
-        destroyChart();
-        setTimeout(renderChart);
-    }, [
-        type
-    ]);
-    (0, _react.useEffect)(()=>{
-        renderChart();
-        return ()=>destroyChart();
-    }, []);
-    return /*#__PURE__*/ (0, _reactDefault.default).createElement("canvas", Object.assign({
-        ref: canvasRef,
-        role: "img",
-        height: height,
-        width: width
-    }, canvasProps), fallbackContent);
-}
-const Chart = /*#__PURE__*/ (0, _react.forwardRef)(ChartComponent);
-function createTypedChart(type, registerables) {
-    (0, _chartJs.Chart).register(registerables);
-    return /*#__PURE__*/ (0, _react.forwardRef)((props, ref)=>/*#__PURE__*/ (0, _reactDefault.default).createElement(Chart, Object.assign({}, props, {
-            ref: ref,
-            type: type
-        })));
-}
-const Line = /* #__PURE__ */ createTypedChart("line", (0, _chartJs.LineController));
-const Bar = /* #__PURE__ */ createTypedChart("bar", (0, _chartJs.BarController));
-const Radar = /* #__PURE__ */ createTypedChart("radar", (0, _chartJs.RadarController));
-const Doughnut = /* #__PURE__ */ createTypedChart("doughnut", (0, _chartJs.DoughnutController));
-const PolarArea = /* #__PURE__ */ createTypedChart("polarArea", (0, _chartJs.PolarAreaController));
-const Bubble = /* #__PURE__ */ createTypedChart("bubble", (0, _chartJs.BubbleController));
-const Pie = /* #__PURE__ */ createTypedChart("pie", (0, _chartJs.PieController));
-const Scatter = /* #__PURE__ */ createTypedChart("scatter", (0, _chartJs.ScatterController));
+var _chartJs = require("../dist/chart.js");
+parcelHelpers.exportAll(_chartJs, exports);
+(0, _chartJs.Chart).register(...(0, _chartJs.registerables));
+exports.default = (0, _chartJs.Chart);
 
-},{"react":"21dqq","chart.js":"ipU8D","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"geMx0":[function(require,module,exports) {
+},{"../dist/chart.js":"ipU8D","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"geMx0":[function(require,module,exports) {
 var $parcel$ReactRefreshHelpers$36ad = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
